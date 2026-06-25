@@ -16,7 +16,7 @@ const registerValidation=Joi.object({
     .trim()
     .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
     .required()
-    .message({
+    .messages({
     "string.pattern.base":"password must contain uppercase,lowercase,number and special character"
 }) 
 });
@@ -30,9 +30,15 @@ password:Joi.string()
 .trim()
 .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
 .required()
-.message({
+.messages({
     "string.pattern.base":"password must contain uppercase,lowercase,number and special character"
 }) 
 });
 
-export {loginValidation,registerValidation};
+const refreshTokenValidation=Joi.object({
+    token:Joi.string()
+    .trim()
+    .required()
+})
+
+export {loginValidation,registerValidation,refreshTokenValidation};
