@@ -23,13 +23,7 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
-        validate: {
-            validator: (password) => {
-                return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password);
-            },
-            message: `At least 8 characters,One uppercase letter (A-Z),One lowercase letter (a-z),One number (0-9),One special character (@ $ ! % * ? &, etc.)`
-        }
+        required: true
     },
     isVerified: {
         type: Boolean,
