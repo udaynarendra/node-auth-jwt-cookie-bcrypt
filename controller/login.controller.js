@@ -22,12 +22,14 @@ const login = async (req, res) => {
         if (!isMatch) {
             return res.status(400).json(apiResponse(false, 'Invalid Creditionals'));
         }
+
         const accessToken = generateAccessToken(user._id, user.email, user.role);
         const refreshToken = generateRefreshToken(user._id);
         const refreshTokenData = await RefreshToken.create({
             userId: user._id,
             token: refreshToken,
-            isRevoked: false
+            isRevoked: false,
+            expiresAt:new Date(Date.now()+7 * 24 * 60 * 60 * 1000) 
         });
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
@@ -38,6 +40,7 @@ const login = async (req, res) => {
 
         return res.status(200).json(apiResponse(true, 'login successfully', { accessToken }));
     } catch (error) {
+        console.log(error.message)
         return res.status(500).json(apiResponse(false, 'Internal Server Error'));
     }
 }
