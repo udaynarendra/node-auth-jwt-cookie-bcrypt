@@ -1,9 +1,14 @@
 import express from 'express';
-import {register,login} from '../controller/authController.js';
 import verify from '../middlewares/authMiddleware.js';
 import profile from '../controller/userController.js';
+import register from '../controller/register.controller.js';
+import login from '../controller/login.controller.js';
+import verifyEmail from '../controller/verifyEmail.controller.js';
+import refreshToken from '../controller/refreshToken.controller.js';
 const router = express.Router();
 router.post('/register',register)
 router.post('/login',login)
+router.get('/verifyEmail',verifyEmail);
 router.get('/profile',verify,profile);
+router.post('/refreshToken',refreshToken)
 export default router;
