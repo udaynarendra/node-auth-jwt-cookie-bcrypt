@@ -17,7 +17,7 @@ const emailVerificationTokensSchema = new mongoose.Schema({
         required: true,
         index: { expires: 0 }
     },
-    isUsed: {
+    isVerified: {
         type: Boolean,
         default: false
     }
