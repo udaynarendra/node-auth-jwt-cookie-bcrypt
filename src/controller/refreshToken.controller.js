@@ -1,7 +1,7 @@
-import { refreshTokenValidation } from '../../../validators/validations.js';
-import apiResponse from '../../../utility/apiResponse.js';
+import { refreshTokenValidation } from '../validators/validations.js';
+import apiResponse from '../utility/apiResponse.js';
 import User from '../models/users.models.js'
-import { generateAccessToken } from '../../../utility/tokens.js';
+import { generateAccessToken } from '../utility/tokens.js';
 import RefreshToken from '../models/refreshToken.models.js';
 
 
