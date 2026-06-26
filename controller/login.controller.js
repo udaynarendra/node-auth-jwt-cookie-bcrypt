@@ -2,7 +2,6 @@ import { loginValidation } from '../validators/validations.js';
 import apiResponse from '../utility/apiResponse.js';
 import { comparePassword } from '../utility/hashedPassword.js';
 import User from '../models/users.models.js'
-
 import { generateAccessToken, generateRefreshToken } from '../utility/tokens.js';
 import RefreshToken from '../models/refreshToken.models.js';
 
@@ -29,7 +28,7 @@ const login = async (req, res) => {
             userId: user._id,
             token: refreshToken,
             isRevoked: false,
-            expiresAt:new Date(Date.now()+7 * 24 * 60 * 60 * 1000) 
+            expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
         });
         res.cookie("refreshToken", refreshToken, {
             httpOnly: true,
