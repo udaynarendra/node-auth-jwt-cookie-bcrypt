@@ -1,22 +1,25 @@
+import dotenv from 'dotenv';
+dotenv.config();
+import apiResponse from '../utility/apiResponse.js'
 import jwt from 'jsonwebtoken';
 
 
 const verify=(req,res,next)=>{
-    const token = req.cookies.token;
+  const authHeader=req.headers.authorization;
+  const token=authHeader.split(" ")[1];
     if(!token){
-        res.status(401).json({
-            message:'No token'
+         return res.status(401).json({
+            message:'No token found'
         })
     }
     try{
-        const decoded=jwt.verify(token,'give your screte password');
+        const decoded=jwt.verify(token,process.env.ACCESS_TOKEN_SECERT);
         req.user=decoded;
         next();
     }
     catch(error){
-        res.status(401).json({
-            message:'not verified'
-        })
+        console.log(error.message)
+       return  res.status(401).json(apiResponse(false,'user not verified'))
     }
 }
 export default verify;
