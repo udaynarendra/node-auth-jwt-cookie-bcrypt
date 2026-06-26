@@ -1,5 +1,5 @@
-import verifyRefreshToken from "../../../utility/verifyToken.js"
-import apiResponse from "../../../utility/apiResponse.js"
+import verifyRefreshToken from "../utility/verifyToken.js"
+import apiResponse from "../utility/apiResponse.js"
 import RefreshToken from "../models/refreshToken.models.js"
 const logOut=async(req,res)=>{
     try{
