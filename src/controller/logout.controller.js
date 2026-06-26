@@ -5,7 +5,6 @@ import ApiError from "../utility/apiError.js"
 import asyncHandler from "../utility/asyncHandler.js"
 const logOut = asyncHandler(async (req, res) => {
     const token = req.cookies.refreshToken;
-    console.log(token)
     const verifedToken = verifyRefreshToken(token);
     const tokenData = await RefreshToken.findOne({ token });
     if (!tokenData) {
@@ -13,7 +12,6 @@ const logOut = asyncHandler(async (req, res) => {
     }
     tokenData.isRevoked = true;
     await tokenData.save();
-    console.log(tokenData)
     res.clearCookie("refreshToken");
     return res.status(200).json(apiResponse(true, 'user logout successfully'));
 
