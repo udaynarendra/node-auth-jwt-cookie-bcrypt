@@ -4,7 +4,6 @@ import cookieParser from 'cookie-parser';
 import requestHandler from './middlewares/error.middleware.js'
 import cors from 'cors';
 const app=express();
-const app = express();
 app.use(cors({   origin: 'http://localhost:3000',
     credentials: true}))
 
