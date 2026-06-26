@@ -1,51 +1,77 @@
-# Node Auth JWT Cookie Bcrypt
+# Authentication System API
 
-A simple authentication backend built with Node.js and Express.js using JWT, bcrypt, and cookies. User data is stored in a local `data.json` file instead of a database.
+A secure REST API for user authentication built with **Node.js**, **Express.js**, **MongoDB**, and **JWT**. The application provides user registration, email verification, authentication using access and refresh tokens, password reset, and protected routes following modern security practices.
 
 ---
 
 ## Features
 
-- User Registration
-- User Login
-- Password Hashing with bcrypt
-- JWT Authentication
-- Cookie-based Authentication
-- Protected Routes
-- Logout Functionality
-- File-based Storage using `data.json`
+* User Registration
+* Email Verification
+* User Login
+* JWT Authentication
+* Access Token & Refresh Token
+* Refresh Token Rotation
+* Protected Routes
+* Forgot Password
+* Reset Password
+* User Logout
+* Password Hashing (bcrypt)
+* Request Validation (Joi)
+* Centralized Error Handling
+* Logging
+* Secure Cookies
 
 ---
 
 ## Tech Stack
 
-- Node.js
-- Express.js
-- JWT
-- bcrypt
-- cookie-parser
-- File System (`fs`)
+**Backend**
+
+* Node.js
+* Express.js
+
+**Database**
+
+* MongoDB
+* Mongoose
+
+**Authentication**
+
+* JSON Web Token (JWT)
+* bcrypt
+
+**Validation**
+
+* Joi
+
+**Logging**
+
+* Winston / Pino
+
+**Email Service**
+
+* Nodemailer
 
 ---
 
 ## Project Structure
 
-```bash
-project-folder/
-│
-├── controllers/
-│   └── authController.js
-│
-├── middlewares/
-│   └── authMiddleware.js
-│
-├── routes/
-│   └── authRoutes.js
-│
-├── data/
-│   └── data.json
-│
-├── server.js
+```text
+.
+├── src
+│   ├── config
+│   ├── controllers
+│   ├── middlewares
+│   ├── models
+│   ├── routes
+│   ├── services
+│   ├── utils
+│   ├── validations
+│   ├── app.js
+│   └── server.js
+├── .env
+├── .gitignore
 ├── package.json
 └── README.md
 ```
@@ -54,19 +80,19 @@ project-folder/
 
 ## Installation
 
-Clone the repository:
+Clone the repository
 
 ```bash
-git clone https://github.com/your-username/node-auth-jwt-cookie-bcrypt.git
+git clone <repository-url>
 ```
 
-Move into the project folder:
+Navigate to the project
 
 ```bash
-cd node-auth-jwt-cookie-bcrypt
+cd authentication-system
 ```
 
-Install dependencies:
+Install dependencies
 
 ```bash
 npm install
@@ -74,171 +100,168 @@ npm install
 
 ---
 
-## Required Packages
+## Environment Variables
+
+Create a `.env` file in the project root.
+
+```env
+PORT=5000
+
+MONGODB_URI=
+
+JWT_ACCESS_SECRET=
+
+JWT_REFRESH_SECRET=
+
+ACCESS_TOKEN_EXPIRES_IN=15m
+
+REFRESH_TOKEN_EXPIRES_IN=7d
+
+EMAIL_USER=
+
+EMAIL_PASS=
+
+CLIENT_URL=
+```
+
+---
+
+## Running the Application
+
+Development
 
 ```bash
-npm install express bcrypt jsonwebtoken cookie-parser
+npm run dev
 ```
 
----
-
-## Run the Server
+Production
 
 ```bash
-node server.js
+npm start
 ```
-
-or
-
-```bash
-npx nodemon server.js
-```
-
-Server runs on:
-
-```bash
-http://localhost:5000
-```
-
----
-
-## API Endpoints
-
-### Register User
-
-**POST** `/register`
-
-```json
-{
-  "email": "user@gmail.com",
-  "password": "123456"
-}
-```
-
-### Process
-
-1. Reads users from `data.json`
-2. Checks if user already exists
-3. Hashes password using bcrypt
-4. Stores user in `data.json`
-
----
-
-### Login User
-
-**POST** `/login`
-
-```json
-{
-  "email": "user@gmail.com",
-  "password": "123456"
-}
-```
-
-### Process
-
-1. Finds user from `data.json`
-2. Compares password using bcrypt
-3. Creates JWT token
-4. Sends token in cookies
-
----
-
-### Protected Route
-
-**GET** `/profile`
-
-Requires valid JWT token from cookies.
-
-### Process
-
-1. Middleware checks token from cookies
-2. JWT verifies token
-3. Access granted if token is valid
-
----
-
-### Logout User
-
-**GET** `/logout`
-
-Clears authentication cookie.
 
 ---
 
 ## Authentication Flow
 
 ```text
-1. User Registers
-2. Password gets hashed using bcrypt
-3. User logs in
-4. JWT token is created
-5. Token stored in cookies
-6. Browser sends cookie automatically
-7. Middleware verifies JWT
-8. Protected route accessed
+Register
+   ↓
+Email Verification
+   ↓
+Login
+   ↓
+Generate Access Token
+   ↓
+Generate Refresh Token
+   ↓
+Access Protected Routes
+   ↓
+Refresh Access Token
+   ↓
+Logout
 ```
 
 ---
 
-## Example data.json
+## API Endpoints
 
-```json
-[
-  {
-    "email": "user@gmail.com",
-    "password": "$2b$10$hashedpassword"
-  }
-]
+| Method | Endpoint                    | Description                    |
+| ------ | --------------------------- | ------------------------------ |
+| POST   | `/api/auth/register`        | Register a new user            |
+| GET    | `/api/auth/verify-email`    | Verify email address           |
+| POST   | `/api/auth/login`           | Login user                     |
+| POST   | `/api/auth/refresh-token`   | Generate new access token      |
+| POST   | `/api/auth/logout`          | Logout user                    |
+| POST   | `/api/auth/forgot-password` | Send password reset link       |
+| POST   | `/api/auth/reset-password`  | Reset password                 |
+| GET    | `/api/auth/profile`         | Get authenticated user profile |
+
+---
+
+## Database Collections
+
+### Users
+
+```text
+_id
+name
+email
+password
+role
+isVerified
+createdAt
+updatedAt
+```
+
+### RefreshTokens
+
+```text
+_id
+user
+token
+expiresAt
+isRevoked
+createdAt
+updatedAt
+```
+
+### EmailVerificationTokens
+
+```text
+_id
+user
+token
+expiresAt
+createdAt
+```
+
+### PasswordResetTokens
+
+```text
+_id
+user
+token
+expiresAt
+createdAt
 ```
 
 ---
 
-## Security Used
+## Security
 
-### bcrypt
+* Password hashing using bcrypt
+* JWT-based authentication
+* Access & Refresh Token strategy
+* Refresh Token rotation
+* HTTP-only cookies
+* Email verification
+* Password reset tokens
+* Input validation
+* Centralized error handling
+* Environment variable management
 
-- Hashes passwords securely
-- Prevents plain text password storage
+---
 
-### JWT
+## Testing
 
-- Verifies authenticated users
-- Used for protected routes
+The API can be tested using:
 
-### Cookies
-
-- Stores JWT token securely
-- Automatically sent with requests
-
+* Postman
 ---
 
 ## Future Improvements
 
-- MongoDB Integration
-- Refresh Tokens
-- Role-based Authentication
-- Email Verification
-- Password Reset
-- Input Validation
-- Rate Limiting
+* Google OAuth
+* GitHub OAuth
+* Two-Factor Authentication (2FA)
+* Redis-based token storage
+* Docker support
+* API documentation (Swagger/OpenAPI)
+* Unit and Integration Testing
 
 ---
 
-## Learning Goals
+## License
 
-This project helps beginners understand:
-
-- Backend authentication flow
-- JWT working process
-- bcrypt hashing
-- Middleware usage
-- Cookie handling
-- File handling in Node.js
-
----
-
-## Author
-
-Developed by Uday Narendra
-
+This project is licensed under the MIT License.

@@ -12,7 +12,7 @@ app.use(cors({   origin: 'http://localhost:3000',
 
 app.use(express.json());
 app.use(cookieParser());
-app.use('/',router)
+app.use('/api/auth',router)
 async function Start() {
     try{
      connectDB();
