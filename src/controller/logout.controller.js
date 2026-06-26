@@ -1,24 +1,22 @@
 import verifyRefreshToken from "../utility/verifyToken.js"
 import apiResponse from "../utility/apiResponse.js"
 import RefreshToken from "../models/refreshToken.models.js"
-const logOut=async(req,res)=>{
-    try{
-    const token=req.cookies.refreshToken;
+import ApiError from "../utility/apiError.js"
+import asyncHandler from "../utility/asyncHandler.js"
+const logOut = asyncHandler(async (req, res) => {
+    const token = req.cookies.refreshToken;
     console.log(token)
-    const verifedToken=verifyRefreshToken(token);
-    const tokenData=await RefreshToken.findOne({token});
-    if(!tokenData){
-        return res.status(400).json(apiResponse(false,'token not found'));
+    const verifedToken = verifyRefreshToken(token);
+    const tokenData = await RefreshToken.findOne({ token });
+    if (!tokenData) {
+        throw new ApiError(400, 'Token not found');
     }
-    tokenData.isRevoked=true;
+    tokenData.isRevoked = true;
     await tokenData.save();
     console.log(tokenData)
     res.clearCookie("refreshToken");
-    return res.status(200).json(apiResponse(true,'user logout successfully'));
-}
-catch(error){
-    return res.status(401).json(apiResponse(false,'unauthorized'));
-}
+    return res.status(200).json(apiResponse(true, 'user logout successfully'));
 
-}
+
+})
 export default logOut;
