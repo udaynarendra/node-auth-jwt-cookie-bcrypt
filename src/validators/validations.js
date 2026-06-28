@@ -43,7 +43,7 @@ const refreshTokenValidation=Joi.object({
 
 
 const forgotPasswordValidation=Joi.object({
-    email:Joi.string
+    email:Joi.string()
     .trim()
     .lowercase()
     .email()
