@@ -41,4 +41,13 @@ const refreshTokenValidation=Joi.object({
     .required()
 })
 
-export {loginValidation,registerValidation,refreshTokenValidation};
+
+const forgotPasswordValidation=Joi.object({
+    email:Joi.string
+    .trim()
+    .lowercase()
+    .email()
+    .required()
+})
+
+export {loginValidation,registerValidation,refreshTokenValidation,forgotPasswordValidation};
