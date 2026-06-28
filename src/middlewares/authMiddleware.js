@@ -1,25 +1,19 @@
 import dotenv from 'dotenv';
 dotenv.config();
-import apiResponse from '../utility/apiResponse.js'
 import jwt from 'jsonwebtoken';
+import asyncHandler from '../utility/asyncHandler.js';
+import ApiError from '../utility/apiError.js';
 
 
-const verify=(req,res,next)=>{
+const verify=asyncHandler((req,res,next)=>{
   const authHeader=req.headers.authorization;
   const token=authHeader.split(" ")[1];
     if(!token){
-         return res.status(401).json({
-            message:'No token found'
-        })
+        throw new ApiError(401,'token not found')
     }
-    try{
         const decoded=jwt.verify(token,process.env.ACCESS_TOKEN_SECERT);
         req.user=decoded;
         next();
-    }
-    catch(error){
-        console.log(error.message)
-       return  res.status(401).json(apiResponse(false,'user not verified'))
-    }
-}
+  
+})
 export default verify;
