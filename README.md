@@ -45,9 +45,6 @@ A secure REST API for user authentication built with **Node.js**, **Express.js**
 
 * Joi
 
-**Logging**
-
-* Winston / Pino
 
 **Email Service**
 
@@ -83,7 +80,7 @@ A secure REST API for user authentication built with **Node.js**, **Express.js**
 Clone the repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/udaynarendra/node-auth-jwt-cookie-bcrypt.git
 ```
 
 Navigate to the project
@@ -98,33 +95,6 @@ Install dependencies
 npm install
 ```
 
----
-
-## Environment Variables
-
-Create a `.env` file in the project root.
-
-```env
-PORT=5000
-
-MONGODB_URI=
-
-JWT_ACCESS_SECRET=
-
-JWT_REFRESH_SECRET=
-
-ACCESS_TOKEN_EXPIRES_IN=15m
-
-REFRESH_TOKEN_EXPIRES_IN=7d
-
-EMAIL_USER=
-
-EMAIL_PASS=
-
-CLIENT_URL=
-```
-
----
 
 ## Running the Application
 
@@ -179,54 +149,7 @@ Logout
 
 ---
 
-## Database Collections
 
-### Users
-
-```text
-_id
-name
-email
-password
-role
-isVerified
-createdAt
-updatedAt
-```
-
-### RefreshTokens
-
-```text
-_id
-user
-token
-expiresAt
-isRevoked
-createdAt
-updatedAt
-```
-
-### EmailVerificationTokens
-
-```text
-_id
-user
-token
-expiresAt
-createdAt
-```
-
-### PasswordResetTokens
-
-```text
-_id
-user
-token
-expiresAt
-createdAt
-```
-
----
 
 ## Security
 
