@@ -7,6 +7,7 @@ import verifyEmail from '../controller/verifyEmail.controller.js';
 import refreshToken from '../controller/refreshToken.controller.js';
 import logOut from '../controller/logout.controller.js';
 import forgotPassword from '../controller/forgotPassword.controller.js';
+import resetPassword from '../controller/resetPassword.controller.js';
 const router = express.Router();
 router.post('/register',register);
 router.post('/login',login);
@@ -14,5 +15,6 @@ router.get('/verifyEmail',verifyEmail);
 router.get('/profile',verify,profile);
 router.post('/refreshToken',refreshToken);
 router.post('/logout',logOut);
-router.post('/forgotPassword',forgotPassword)
+router.post('/forgotPassword',forgotPassword);
+router.post('/resetPassword',resetPassword);
 export default router;
