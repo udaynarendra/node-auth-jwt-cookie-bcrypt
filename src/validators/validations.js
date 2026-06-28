@@ -50,4 +50,18 @@ const forgotPasswordValidation=Joi.object({
     .required()
 })
 
-export {loginValidation,registerValidation,refreshTokenValidation,forgotPasswordValidation};
+
+const resetPasswordValidation=Joi.object({
+    token:Joi.string()
+    .trim()
+    .required(),
+    password:Joi.string()
+    .trim()
+    .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
+    .required()
+    .messages({
+    "string.pattern.base":"password must contain uppercase,lowercase,number and special character"
+}) 
+})
+
+export {loginValidation,registerValidation,refreshTokenValidation,forgotPasswordValidation,resetPasswordValidation};
