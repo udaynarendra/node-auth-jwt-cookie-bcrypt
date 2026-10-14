@@ -1,6 +1,10 @@
 # Authentication System API
 
-A secure REST API for user authentication built with **Node.js**, **Express.js**, **MongoDB**, and **JWT**. The application provides user registration, email verification, authentication using access and refresh tokens, password reset, and protected routes following modern security practices.
+A secure REST API for user authentication built with **Node.js**, **Express.js**, **MongoDB**, and **JWT**. The application provides user registration, email verification, authentication using access and refresh tokens, password reset functionality, and protected routes.
+
+## Live Demo
+
+The deployed API is available at: [https://node-auth-jwt-cookie-bcrypt-4.onrender.com/](https://node-auth-jwt-cookie-bcrypt-4.onrender.com/)
 
 ---
 
@@ -86,7 +90,7 @@ git clone https://github.com/udaynarendra/node-auth-jwt-cookie-bcrypt.git
 Navigate to the project
 
 ```bash
-cd authentication-system
+cd node-auth-jwt-cookie-bcrypt
 ```
 
 Install dependencies
