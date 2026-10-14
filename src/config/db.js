@@ -7,7 +7,8 @@ import mongoose from "mongoose";
     console.log('DataBase is connected');
    }
    catch(error){
-      return res.status(500).json(apiResponse(false,'Internal Server Error'));
+      console.error("MongoDB connection failed:", error.message);
+    throw error;
    }
  }
  export default connectDB;
